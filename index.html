@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <canvas
+      id="myCanvas"
+      width="800"
+      height="600"
+      style="border: 1px solid grey; background-color: transparent"
+    ></canvas>
+
+    <script>
+      const keys = {
+        ArrowUp: false,
+        ArrowDown: false,
+        ArrowLeft: false,
+        ArrowRight: false,
+        Space: false,
+        Digit8: false,
+        KeyP: false,
+        KeyX: false,
+        KeyR: false,
+        KeyN: false,
+      };
+
+      // Listener para pressionar teclas
+      document.addEventListener("keydown", (event) => {
+        event.preventDefault();
+        if (event.key in keys) {
+          keys[event.key] = true;
+        } else if (event.code == "Space") {
+          // Detecta a Spacebar
+          keys.Space = true;
+        } else if (event.code == "Digit8") {
+          keys.Digit8 = true;
+        } else if (event.code == "KeyP") {
+          keys.KeyP = true;
+        } else if (event.code == "KeyX") {
+          keys.KeyX = true;
+        } else if (event.code == "KeyR") {
+          keys.KeyR = true;
+        } else if (event.code == "KeyN") {
+          keys.KeyN = true;
+        }
+      });
+
+      // Listener para soltar teclas
+      document.addEventListener("keyup", (event) => {
+        event.preventDefault();
+        if (event.key in keys) {
+          keys[event.key] = false;
+        } else if (event.code == "Space") {
+          // Detecta a Spacebar
+          keys.Space = false;
+        } else if (event.code == "Digit8") {
+          keys.Digit8 = false;
+        } else if (event.code == "KeyP") {
+          keys.KeyP = false;
+        } else if (event.code == "KeyX") {
+          keys.KeyX = false;
+        } else if (event.code == "KeyR") {
+          keys.KeyR = false;
+        } else if (event.code == "KeyN") {
+          keys.KeyN = false;
+        }
+      });
+
+      /** @type {HTMLCanvasElement} */
+      const c = document.getElementById("myCanvas");
+      const ctx = c.getContext("2d");
+      ctx.scale(5, 5);
+
+      const S =
+        "aaaaabbbbabbbbabbbbabbbbaaaaaaabbbbabbbbabbbbabbbbccccccccccaaacccca" +
+        "ccccaccccaccccaccccaaaccccccccccddddddddddaaaddddaddddaddddaddddaddd" +
+        "daaaddddddddddeeeeeeeeeeaaaeeeeaeeeeaeeeeaeeeeaeeeeaaaeeeeeeeeeeaaaa" +
+        "aafaffaaaaaffffffaaaffaaaffffffaaaaaffafaaaaaaaaaaaagaggaaaaagggggga" +
+        "aaggaaaggggggaaaaaggagaaaaaahhaaahaiaiagaggagaggaaaaaaiaiihaiaghhaia" +
+        "hhhaihhhhahhhhahahhahhahahhhaaaaaaaaaaaahhhaahhahahahhahhhhaccccccch" +
+        "hchhhhchhccchccccccchhcchhhccchhhcccchhcccdddddddhhdhhhhdhhdddhddddd" +
+        "ddhhddhhhdddhhhddddhhdddeeeeeeehhehhhhehheeeheeeeeeehheehhheeehhheee" +
+        "ehheeeggggggggggggggggggggggggggggggggggggggggggggggggggjjjjjkkkkjkk" +
+        "kkjkkkkjkkkkjjjjjjjkkkkjkkkkjkkkkjkkkkhhcchhciicccaachcaachcaacccccc" +
+        "hchcchchchhchchchhchhhcchcciichcaachcaacccaachcccchchcchchccchhchchc" +
+        "hhhhddhhdiidddaadhdaadhdaaddddddhdhddhdhdhhdhdhdhhdhhhddhddiidhdaadh" +
+        "daadddaadhddddhdhddhdhdddhhdhdhdhhhheehheiieeeaaeheaaeheaaeeeeeehehe" +
+        "ehehehhehehehhehhheeheeiieheaaeheaaeeeaaeheeeeheheeheheeehhehehehhhh" +
+        "hhahahhahhahahhhaaaaaaaaaaaahhhaahhahahahhahhhhahhahahhahahhhaaaahaa" +
+        "hhaaahhaaaaahaahhhaahhahahhahahhffhhfiifffaafhfaafhfaaffffffhfhffhfh" +
+        "fhhfhfhfhhfhhhffhffiifhfaafhfaafffaafhffffhfhffhfhfffhhfhfhfhhchhchh" +
+        "chchhchchhchccccccchcaachcaacccaachciichhcchchchhchhchhchcchchcchccc" +
+        "cccaachcaachcaaccciichhcchhhbbhhbiibbbaabhbaabhbaabbbbbbhbhbbhbhbhhb" +
+        "hbhbhhbhhhbbhbbiibhbaabhbaabbbaabhbbbbhbhbbhbhbbbhhbhbhbhhhhllhhliil" +
+        "llaalhlaalhlaallllllhlhllhlhlhhlhlhlhhlhhhllhlliilhlaalhlaalllaalhll" +
+        "llhlhllhlhlllhhlhlhlhhhmmmmmmmmmmaiammaaammaaammmmmmmmmamhmmmahhmmmh" +
+        "mmmhhmmmmmmmmmmaiammaaammaaammmmmmmmmamhmmmahhhmmhhmmmhmmmhhhmmmhmmm" +
+        "ammmammmmmmmaaammaaammaiammmmmmhmmmmhhmmmhhhmmhmmmammmammmmmmmaaamma" +
+        "aammaiammmmmmhmmmm" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggghgggghggggg" +
+        "ggggaaaaaaaagggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggggaggggggggg" +
+        "ggggggaggggggggg" +
+        "ghgzggaghgggghgg" +
+        "aaaaaaagggaaaaaa" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gghggggggggggggg" +
+        "ggaggggggggggggg" +
+        "ggggggaggggggggg" +
+        "ggggggggggaggggg" +
+        "ggggggggggggggag" +
+        "ggaggggggggggggg" +
+        "ggggggaggggggggg" +
+        "ggggggggggaggggg" +
+        "ggggggggggggggzg" +
+        "iiiiiiiiiiiiiaaa" +
+        "gggggggggggggggg" +
+        "ggggjggggggggggg" +
+        "gggaaagggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggggggabbbaggg" +
+        "ggggggggagggaggg" +
+        "ggggggggagggaggg" +
+        "gzggggggaghgaggg" +
+        "aaagggaaaaaaaaaa" +
+        "bhbgggggjggggggg" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "hggggggggggggggg" +
+        "aggggggggggggggg" +
+        "aggggggggggggggg" +
+        "agggggggggggggga" +
+        "agzgggggggggggga" +
+        "aaaggggggggggbbb" +
+        "ggggggaggggggggg" +
+        "ggggjgakgggzgggg" +
+        "bbbbbbabbbbbbbbb" +
+        "aaaaaaagggaaaaaa" +
+        "ggggggagggggggha" +
+        "ggggggcgggggggga" +
+        "ghggggcgggggggga" +
+        "ggggggagggcccgga" +
+        "aaaaaaagggggggga" +
+        "gggaggggggggggga" +
+        "ghgaggggggggggga" +
+        "gggaggaaaaaaaaaa" +
+        "abbgggggggggaggg" +
+        "ahbggggggbggaggg" +
+        "abbgggggggggaggg" +
+        "agggggbgggggaggg" +
+        "aggggggzggggagkg" +
+        "aaaaaadddaaagggg" +
+        "aaglgaghgagjgggg" +
+        "aacccaaaaabbbggg" +
+        "gggggggggggggggg" +
+        "gggbgggggggggggg" +
+        "gggggggggggggggg" +
+        "ghggggbgggggaggg" +
+        "gggggggggggggggg" +
+        "ggggghghghgggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggmmmmmmmggggg" +
+        "ggggmmmmmmmggggg" +
+        "ggggmmmmmmmggggg" +
+        "ggggmmmmmmmggggg" +
+        "gzggmmmmmmmgghgg" +
+        "aaaaaaaaaaaaaaaa" +
+        "mmmmmmmmmmmmmmmm" +
+        "mmmmmmmmmmmmmmmm" +
+        "mmmmmmmmmmmmmmmm" +
+        "mmmmmmmammmmmmmm" +
+        "gggggggzgggggggg" +
+        "ghgghggagghgghgg" +
+        "gggggggggggggggg" +
+        "ghgghggggghgghgg" +
+        "gggggggggggggggg" +
+        "mmmmmmmmmmmmmmmm" +
+        "mmmmmmmmmmmmmmmm" +
+        "mmmmmmmmmmmmmmmm" +
+        "aaaaaaaaaaaaaaaa" +
+        "maaaaammmmmmmmmm" +
+        "maaaaammmmmmmmmm" +
+        "mmmmmmmmmmmmmmmm" +
+        "mmmmmmmmmmmmmmmm" +
+        "gggggggggggmmggg" +
+        "ghggghgggggmmggg" +
+        "gagggagggggmmggg" +
+        "gagggagggggmmggg" +
+        "gagggagggggmmggg" +
+        "gaghgagggggmmgzg" +
+        "aaaaaaaaaaammaaa" +
+        "gggggggggggggggg" +
+        "gggggghqghgggggg" +
+        "ggggaaaaaaaagggg" +
+        "gggggggggggggggg" +
+        "aaggggggggggggaa" +
+        "ggggghgggqhggggg" +
+        "ggggaaaaaaaagggg" +
+        "gggggggggggggggg" +
+        "aaggggggggggggaa" +
+        "gggghggqggghgggg" +
+        "gzggaaaaaaaagggg" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggggggggggggggg" +
+        "ggggggggggaghggg" +
+        "ggggggggggaaaaag" +
+        "ggggggggggaggggg" +
+        "ggggagggggaggggg" +
+        "ggggggghggaggggg" +
+        "ggaaaaaaaaaggggg" +
+        "gggggggggrggggaa" +
+        "gggggggrggggggaa" +
+        "gggggrggggggaaaa" +
+        "gzgrggggggggaaaa" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggghggqghggggg" +
+        "ggggaaaaaaaagggg" +
+        "gggggggggggggggg" +
+        "agggggggggggggga" +
+        "ggqggggggggggggg" +
+        "aaaggggggggggaaa" +
+        "gggggggaaggggggg" +
+        "qggggggggggggggg" +
+        "aaaaaggzgggaaaaa" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggrgghggggggggg" +
+        "ggggggaggggggggg" +
+        "gggggggggggggggg" +
+        "gggaggggggggggag" +
+        "ggggggggggggrggg" +
+        "ggggggggggggaggg" +
+        "ggggggggggrggggg" +
+        "ggggggggggaggggg" +
+        "ggggggggzggggggg" +
+        "iiiiiiiaaaiiiiii" +
+        "gggggggggdgggggg" +
+        "ggkgcggggdzglgqg" +
+        "aaaaaagggaaaaaaa" +
+        "gggggagggcggggbg" +
+        "gghggagggcggggbg" +
+        "aaaaaagggcghgaaa" +
+        "gggggagggcgagggg" +
+        "ggcgqagggcgggggg" +
+        "aaaaaagggaaaaaaa" +
+        "gggggagggagggggg" +
+        "gghggagggagqggjg" +
+        "aaaggagggaaaaaaa" +
+        "mmgggmmammggggga" +
+        "mmgggmmammggggga" +
+        "mmgggmmmmmggggga" +
+        "mmgrgmmmmmgrggga" +
+        "mmghgmmmmmghggga" +
+        "mmaaaaaaaaaaamma" +
+        "mmggjggagbgggmma" +
+        "mmgggggahbgggmma" +
+        "mmgggggaaagggmma" +
+        "mmgggggagggggmma" +
+        "mmgzgggagggggmma" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ghgghgghggggghgg" +
+        "g4gg5gg6ggggg3gg" +
+        "gggggggggghggggg" +
+        "gggggggggg2ggggg" +
+        "ggggggghgggggggg" +
+        "gggghgg1gggggggg" +
+        "gggg0ggggggggggg" +
+        "gzgggggggggggggg" +
+        "aaaiiiiiiiiiiiii" +
+        "gggggggggigggggi" +
+        "gggggggggigggggi" +
+        "ggggghgggigggggi" +
+        "gggggggggigggggi" +
+        "gghggggggigggggi" +
+        "ggggg5gggigggggi" +
+        "gggggggggggggzgi" +
+        "ggggggg4gggggagi" +
+        "gggg3ggggggggggi" +
+        "gggggggggggggggi" +
+        "gg2gggg1ggg0gggi" +
+        "iiiiiiiiiiiiiiii" +
+        "gggggggggggggggg" +
+        "gg1ggggggggggggg" +
+        "gggggggzgggggggg" +
+        "gggg0ggagggggggg" +
+        "gggggggggggggggg" +
+        "iiiiiiiiiiiiiiii" +
+        "gggggggggggggghg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggggg3gggggg6g" +
+        "gggggggggggggggg" +
+        "gggg2ggg4ggg5ggg" +
+        "iiiiiiiiiiiiiiii" +
+        "gggggggggggggghg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "876gggggggggggh9" +
+        "ggqggggggggggggg" +
+        "gaaaaaaaaaaggg5g" +
+        "gggggggggggggggg" +
+        "gggzgggggggg4ggg" +
+        "210aggggggggggg3" +
+        "gggggggggggggggg" +
+        "iiiiiiiiiiiiiiii" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggggggggggggag" +
+        "ggggggaaaaaggggg" +
+        "gggggggggggggggg" +
+        "gggagggggggggggg" +
+        "gggggggggggggggg" +
+        "agggggggsggggggg" +
+        "aaaaaaaaaagggggg" +
+        "gggggggggggggggg" +
+        "gggggggzggggaaaa" +
+        "aaaaaaaaaaaaaghg" +
+        "gggggggggggggagg" +
+        "gghggggggggggajg" +
+        "aaaaaggggggggaaa" +
+        "ggggaggggsgggggg" +
+        "ggggaaaaaaaagggg" +
+        "gggggggggggagggg" +
+        "aagggggggggaaaaa" +
+        "gggggsgggggghggg" +
+        "ggggaaaaaaaaaagg" +
+        "gggggggbgggagggg" +
+        "ggaggggbghgagzgg" +
+        "aaaaaaaaaaaaaaaa" +
+        "ggggggggggggggga" +
+        "gggggggggggggsga" +
+        "ggggaaahhhhaaaaa" +
+        "g5ggagggggggggga" +
+        "ggggagggggggggga" +
+        "g24gasggggggggga" +
+        "ggggahhhhaaaaaaa" +
+        "g31gggggggggggga" +
+        "ggggggggggggggga" +
+        "g0ggggggggggggga" +
+        "gggggggggzggggga" +
+        "aaaaaaaaaaaaaaaa" +
+        "iiiiiiaaaaaaiiii" +
+        "iggggigggmmmmmmi" +
+        "igzggigggmmmmmmi" +
+        "igaggigggmmmmmmi" +
+        "igggggghgggggmmi" +
+        "iggggggggggggmmi" +
+        "igggggghgggggmmi" +
+        "iggggggggggggmmi" +
+        "iggggggggggggmmi" +
+        "iggggggggggggmmi" +
+        "igggggghghgggmmi" +
+        "iiiiiiaaaaaaaaai" +
+        "igggggigggiiiiii" +
+        "ighghgigggiggggi" +
+        "igggggigggiggzgi" +
+        "ighghgigggiggagi" +
+        "iggggggggggggggi" +
+        "ighghggggggggggi" +
+        "igggggggaggggggi" +
+        "ighghggggggggggi" +
+        "iggggggggggggggi" +
+        "ighghggggggggggi" +
+        "iggggggggggggggi" +
+        "igggggggggiiiiii" +
+        "agggggggggrggggg" +
+        "agggggggrggggghg" +
+        "agggggrggggggggg" +
+        "aggaaaaaaaaaaaaa" +
+        "gggsgghggggggggg" +
+        "aaaaaaaaagggaaaa" +
+        "ggggggggggggsggg" +
+        "aaaggaaaaaaaaaaa" +
+        "ggggggggqggggggg" +
+        "aaaaaaaaaaggaaaa" +
+        "gzggqggggggggggg" +
+        "aaaaaaaaaaaaaaaa" +
+        "agghgggggggggggg" +
+        "agggggggghgggghg" +
+        "aggggggggggggggg" +
+        "agggggeeeeeegggg" +
+        "aggggggggggggggg" +
+        "aagggggggggggggg" +
+        "aggggggggggggggg" +
+        "agggffffffffgggg" +
+        "aggggggggggggggg" +
+        "agggggggggggggaa" +
+        "agzgggggggggggaa" +
+        "aaaaeeeeeeeeaaaa" +
+        "gggggggggggggghi" +
+        "ggggggeeeeeeeeee" +
+        "gggggagggggggggg" +
+        "igggaggggggggggg" +
+        "iggagggggggggggg" +
+        "igggggggiggggggg" +
+        "fffffffffffggggg" +
+        "ggggggggggggggga" +
+        "gggggggggggggggi" +
+        "ggggggggggggaggi" +
+        "gzggggggiggggggi" +
+        "eeeeeeeeeeeeeeee" +
+        "gggggggggggggggg" +
+        "gggghggghgghgggg" +
+        "ghgggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggfgggfggfgggg" +
+        "ggggggggggggggeg" +
+        "gggggggggggggggg" +
+        "gegggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggegggggeggggg" +
+        "gggggggeggggggzg" +
+        "iiiiiiiiiiiiiaaa" +
+        "iggggggggggggggi" +
+        "iggggggggggaaaig" +
+        "iggggggggqgggigg" +
+        "iggggggfffffiggg" +
+        "iggggggggggigggg" +
+        "ifffggggggigghgg" +
+        "iggggggggigggggg" +
+        "iggggg1giggggggg" +
+        "iggggggigggggghg" +
+        "iggg0giggggg3ggg" +
+        "igzggigggggggggg" +
+        "iaaaigggggg2gggg" +
+        "gggggrgggggggrgg" +
+        "grgggggggggzgggk" +
+        "cccccccccccccccc" +
+        "ggghggghggghgggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggl" +
+        "dddddddddddddddd" +
+        "bbbbbbbbbbbbbbbb" +
+        "ghggghggghggghgg" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggjgggggrgggggg" +
+        "tttgggtttttgggtt" +
+        "gggggggggggggggg" +
+        "gggghggggggghggg" +
+        "ggaaaaaaaaaaaaaa" +
+        "gggggggggggggggg" +
+        "aggggggggggggggg" +
+        "aggghggggggghggg" +
+        "aaaaaaaaaaaaaggg" +
+        "gggggggggggggggg" +
+        "ggggggggggggggga" +
+        "ggggzggggggghgga" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggggggggttttttt" +
+        "gggghggggggggggg" +
+        "ghgggggggggghggg" +
+        "aagggggggggggggg" +
+        "gggggggghggggghg" +
+        "ggggggggaaaaaaaa" +
+        "ggghgggggggggggg" +
+        "gggaaggggggggggg" +
+        "gggggghggggggggg" +
+        "ggggggaggggggggg" +
+        "ghgggggggghgggzg" +
+        "tttttttgggaaaaaa" +
+        "gggggggggggghggg" +
+        "gggggghggggggggg" +
+        "ggggggggggggiggg" +
+        "ggghggaggauggggg" +
+        "gggggggggggggggg" +
+        "gggaugggggggggag" +
+        "gggggggggggggggg" +
+        "ggggggggggaugggg" +
+        "gggggggggggggggg" +
+        "ggggaaaggggggggg" +
+        "gzggaaaggggggggg" +
+        "aaaaaaaaaaaaaaaa" +
+        "ggggggggghgggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggggggggg8gg7g" +
+        "gggggggggggggg3g" +
+        "g6gggggggggggggg" +
+        "gggg5gg4gggggggg" +
+        "ggggggggggaugggg" +
+        "g1ggggggggggg2gg" +
+        "gggg0ggggggggggg" +
+        "gggggggzgggggggg" +
+        "iiiiiiaaaaaaaaaa" +
+        "aggggggggggggggg" +
+        "aghgghgggggggggg" +
+        "aggggggggggggggg" +
+        "aggggggggggggggg" +
+        "agaggggggggggggg" +
+        "aggggggghggggggg" +
+        "aggggaugaggauggg" +
+        "agggggggggggggga" +
+        "agggggggggggggga" +
+        "aggggigggggiggaa" +
+        "agzggigghggiggaa" +
+        "aaaaaaaaaaaaaaaa" +
+        "aggggggggggggggg" +
+        "aggggggggggggggg" +
+        "aggghqgggggghggg" +
+        "agggaaaaaaaaaggg" +
+        "aggghggggggvhggg" +
+        "aagggggggggggggg" +
+        "aggghqgggggghggg" +
+        "agggaaaaaaaaaggg" +
+        "aggghggggggvhggg" +
+        "agggggggggggggga" +
+        "agzggggggggggggg" +
+        "aaaaaaaaaaaaaaaa" +
+        "aaaaaaaaaaaaaaaa" +
+        "ammmmmmvmmmmmmaa" +
+        "ammmmmmmmmmmmmaa" +
+        "ammmmmmmmmmmmmma" +
+        "ammmmmmmmmmmmmma" +
+        "ammaaaaaaaaammmm" +
+        "ammaaammmmvmmmmm" +
+        "ammaaammmmmmmmmm" +
+        "ammaammmmmmmmmmm" +
+        "ammaammmmmmmmmmm" +
+        "aggagggggggggggg" +
+        "azgagggggggggghg" +
+        "aggggggggggggggg" +
+        "ahggggggggggzggg" +
+        "affffffffffffggg" +
+        "aggggggggggggggg" +
+        "aggggggggggggggh" +
+        "agggggeeeeeeeeee" +
+        "aggggggggggggggg" +
+        "ahgggggggggggggg" +
+        "affffffffffffggg" +
+        "ahgggggggggggggg" +
+        "aeeeeeeeeeeeeeee" +
+        "ttttttgghgtttttt" +
+        "aaaaaaaaaaaaaaaa" +
+        "mmzmmmmmmmmmmaaa" +
+        "mmmmmmmmmmmmmaaa" +
+        "mmmmmmmmmmmmmmaa" +
+        "mmmmmmmmmmmmmmaa" +
+        "mmmmmmmmmmmmmmma" +
+        "aaaaaaammmaaamma" +
+        "mmmvmmmmmmmmmmma" +
+        "mammmammmammmmma" +
+        "mmmmmmmmmmmmmmma" +
+        "dddabbbagggcccca" +
+        "gkgaglgagjgcghga" +
+        "aggggggggggggggg" +
+        "agggggggggggghgg" +
+        "aggggaaaaaaaaaaa" +
+        "aggggggggggggggg" +
+        "aagggggggggggggg" +
+        "aaaggggggggggggg" +
+        "aggggggggggggggg" +
+        "aggggaggggawgggg" +
+        "aggggggggggggggg" +
+        "agggggggggggggga" +
+        "azggggggggggggga" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggggggaaggggggg" +
+        "gggggggaagggzggg" +
+        "aaaaiiiaaaaaaaaa" +
+        "mmmmgggagggmmmmm" +
+        "mmmmgggahggmmmmm" +
+        "gggggggagggggggg" +
+        "ggggggaagggggggg" +
+        "gggggaaagggggggg" +
+        "ggggaaaagggggggg" +
+        "ggqgghgagggggggg" +
+        "eeeegggagggeeeee" +
+        "gggggggagggggggg" +
+        "ggggggggggggggga" +
+        "hgggggggggggggga" +
+        "ggggggggggggggga" +
+        "ggggggggggggggga" +
+        "ggggggggggggggga" +
+        "agggggggagggggga" +
+        "ggggggggggggggga" +
+        "ggggawgggggaugga" +
+        "ggggggggggggggga" +
+        "gggggggggggaugaa" +
+        "zgggggggggggggaa" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggnnnnnnnnnggg" +
+        "ggggnnnnnnnnnggg" +
+        "ggggnnnnnnnnnggg" +
+        "ggggnnngggnnnggg" +
+        "gzggnnnghgnnnggg" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggggggggggghggg" +
+        "gggggggggggggggg" +
+        "ggggggggggnggggg" +
+        "gggggggngggggggg" +
+        "ggggnggggggggggg" +
+        "gngggggggggggggg" +
+        "ggggggggggggggng" +
+        "gggggggggggngggg" +
+        "ggggggggnggggggg" +
+        "gggggngggggggggg" +
+        "ggnggggggggggzgg" +
+        "aaaaaaaaaaaaaaaa" +
+        "ggggggqgggggaggg" +
+        "ggggggaaaaaanggg" +
+        "ggggggagngggnggg" +
+        "ggaaaaagngggnggg" +
+        "ggagngggngggngrg" +
+        "aaagngggngggaaaa" +
+        "ggggngggngggagla" +
+        "ggggngggaaaaagga" +
+        "zgggngggagggggga" +
+        "ddggaaaaagggggna" +
+        "hdggagggggggggna" +
+        "aaaaagggggggaaaa" +
+        "agggggagggaggggh" +
+        "agggzgagggaggggg" +
+        "aggaaaagggcggggg" +
+        "aggggjagggcggggn" +
+        "agggggagggaggggg" +
+        "agggggagggaggngg" +
+        "agggnnagggaggggg" +
+        "anggngctttangggg" +
+        "agggngcgggaaaaaa" +
+        "bggnngagggaggggg" +
+        "bggnngagggagkggg" +
+        "aaaaaaagggaaaaaa" +
+        "ggggggggggggggga" +
+        "ggggggggggggggga" +
+        "gggggggggggggzga" +
+        "gggggaaaaaaaaaaa" +
+        "gggggggggggghgga" +
+        "ggggggggggggggga" +
+        "ggggggggggggggga" +
+        "ggggggggggggggna" +
+        "ggggggggggggggga" +
+        "gggggggggggnggga" +
+        "ggggggggggggggga" +
+        "iiiiiiiawgggggga" +
+        "ghgggggggggggggg" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggggggggggggng" +
+        "gggggggggggngggg" +
+        "ggggggnggrgggggg" +
+        "gggngggggggggggg" +
+        "nggggggggggggggg" +
+        "ggggggggggggnggg" +
+        "gggrgggggngggggg" +
+        "gggggggzgggggggg" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggggaatttaaggga" +
+        "gggggaagggaagggg" +
+        "ghgggaagggaagggg" +
+        "gggggaagggaaggga" +
+        "ggghgaagggggggga" +
+        "gggggaagggggggga" +
+        "gggggaagggaaggga" +
+        "gggghaagggaaggga" +
+        "gggggaagggaattta" +
+        "ggggggggggaaggga" +
+        "gggggzggggaaggga" +
+        "iiiiiaagggaaggga" +
+        "aggggggggggggggg" +
+        "aggggggggggggggg" +
+        "aggggggggggggggg" +
+        "aggggggggggggggg" +
+        "aghggigghggggggg" +
+        "aaaaaaaaaaaaaggg" +
+        "aggggxggxggxgggg" +
+        "agggggggggggggga" +
+        "agggggggggggggga" +
+        "agggggggggggggaa" +
+        "agzgggggggggggaa" +
+        "aaaaaaaaaaaaaaaa" +
+        "gggggggggggggggg" +
+        "ggggggggggggghgg" +
+        "gggggggggggggggg" +
+        "ggggggggaaaggggg" +
+        "gggggggggxgggggg" +
+        "ggggnggggggggggg" +
+        "gggggggggggggggg" +
+        "ggagggawgggggggg" +
+        "gggggggggggggggg" +
+        "ggggggggggaggggg" +
+        "ggggggggggagggzg" +
+        "aaaaaaaaaaaaaaaa" +
+        "aaaaaaaaaaaaaaaa" +
+        "amzmxmxmxmxmmmaa" +
+        "ammmmmmmmmmmmmaa" +
+        "ammmmmmmmmmmmmma" +
+        "ammmmmmmmmmmmmmm" +
+        "ammmaaaaaaaaammm" +
+        "ammmmmmmmmmmmmmm" +
+        "anmmmmmmmmmmmmmm" +
+        "ammmmmmmmmmmmmmm" +
+        "ammmmaaaaaaaaaaa" +
+        "aggggggggggggggg" +
+        "agggggghgghgghgg" +
+        "aggaxxaaaaaaaaaa" +
+        "gggaggagggggggga" +
+        "ggaaggagggggggha" +
+        "ggggggagggggddda" +
+        "azggggaggggcdhda" +
+        "aaaaggagggggddda" +
+        "nggaggacgggggggc" +
+        "nggagggggggggggc" +
+        "nglaggggggaggggc" +
+        "aaaabbagggggggga" +
+        "gggakgaaaaaaaaaa" +
+        "gggaaaajgggggggg" +
+        "aggggggammmagggg" +
+        "aggggggammmagggg" +
+        "agggeggammmagggg" +
+        "aggggggamzmaghgg" +
+        "aegggggammmagggg" +
+        "agggghgammmagggg" +
+        "aaaaaaaaaaaaaaaa" +
+        "ggghgggggggagggg" +
+        "gggggggggggagggg" +
+        "gggggggggggagghg" +
+        "gggfgggggggagggg" +
+        "gggggggigggagggg" +
+        "iiiiiiiiiiiiiiii" +
+        "gggggggggggggggg" +
+        "gggggggggggggggg" +
+        "ggggghgggggigggg" +
+        "gggggawhgggigggg" +
+        "gggggggaghgigggg" +
+        "gg7ggggggauigggg" +
+        "gggggggggggggg6g" +
+        "g5gggggggggggggg" +
+        "ghg4hgghggghgggg" +
+        "ggggggggggggggzg" +
+        "g3gg2gg1ggg0ggag" +
+        "iggggggggggqgggi" +
+        "igaaagagagaaaggi" +
+        "iggaxgaragaggggi" +
+        "iggaggaaagaauggi" +
+        "iggaggagagaggggi" +
+        "iggaggagagaaaggi" +
+        "igjgggggggggzggi" +
+        "igaaagaggagbbggi" +
+        "igavggaagagbgbgi" +
+        "igaaggagaagbgbgi" +
+        "igagsgaggagbhbgi" +
+        "igaaagaggagbbggi";
+
+      const TILES = 34;
+      const TILE_BRICK = 0; // a
+      const TILE_RED_BRICK = 1; // b
+      const TILE_GREEN_BRICK = 2; // c
+      const TILE_BLUE_BRICK = 3; // d
+      const TILE_RIGHT_BRICK = 4; // e
+      const TILE_LEFT_BRICK = 5; // f
+
+      const TILE_EMPTY = 6; // g
+      const TILE_DIAMOND = 7; // h
+      const TILE_SPIKES = 8; // i
+      const TILE_RED_KEY = 9; // j
+      const TILE_GREEN_KEY = 10; // k
+      const TILE_BLUE_KEY = 11; // l
+      const TILE_ANTIGRAVITY = 12; // m
+      const TILE_APPEARING_BLOCK = 13; // n
+
+      const TILE_RED_ENEMY_0 = 14; // q
+      const TILE_RED_ENEMY_1 = 15;
+      const TILE_GREEN_ENEMY_0 = 16; // r
+      const TILE_GREEN_ENEMY_1 = 17;
+      const TILE_BLUE_ENEMY_0 = 18; // s
+      const TILE_BLUE_ENEMY_1 = 19;
+      const TILE_SPIKES_ENEMY_0 = 20; // t
+      const TILE_SPIKES_ENEMY_1 = 21;
+      const TILE_YELLOW_ENEMY_0 = 22; // u
+      const TILE_YELLOW_ENEMY_1 = 23;
+      const TILE_FLIPPED_RED_ENEMY_0 = 24; // v
+      const TILE_FLIPPED_RED_ENEMY_1 = 25;
+      const TILE_ORANGE_ENEMY_0 = 26; // w
+      const TILE_ORANGE_ENEMY_1 = 27;
+      const TILE_MAGENTA_ENEMY_0 = 28; // x
+      const TILE_MAGENTA_ENEMY_1 = 29;
+      const TILE_PLAYER_0 = 30; // z
+      const TILE_PLAYER_1 = 31;
+      const TILE_PLAYER_2 = 32;
+      const TILE_PLAYER_3 = 33;
+
+      const CHAR_EMPTY = "g";
+      const CHAR_DIAMOND = "h";
+      const CHAR_SPIKES = "i";
+      const CHAR_ANTIGRAVITY = "m";
+      const CHAR_APPEARING_BLOCK = "n";
+      const CHAR_PLAYER = "z";
+      const CHAR_RED_ENEMY = "q";
+      const CHAR_GREEN_ENEMY = "r";
+      const CHAR_BLUE_ENEMY = "s";
+      const CHAR_SPIKES_ENEMY = "t";
+      const CHAR_YELLOW_ENEMY = "u";
+      const CHAR_FLIPPED_RED_ENEMY = "v";
+      const CHAR_ORANGE_ENEMY = "w";
+      const CHAR_MAGENTA_ENEMY = "x";
+
+      const KEY_LEFT = 1006;
+      const KEY_RIGHT = 1007;
+      const KEY_N = 110;
+      const KEY_P = 112;
+      const KEY_R = 114;
+      const KEY_X = 120;
+
+      const SCREEN_WIDTH = 800;
+      const SCREEN_HEIGHT = 600;
+      const FRAME_WIDTH = 160;
+      const FRAME_HEIGHT = 120;
+
+      const ENEMY_X = 0;
+      const ENEMY_Y = 1;
+      const ENEMY_V = 2;
+      const ENEMY_TYPE = 3;
+      const ENEMY_CX = 4;
+      const ENEMY_CY = 5;
+      const ENEMY_RADIUS = 6;
+
+      const ENEMY_TYPE_RED = 0;
+      const ENEMY_TYPE_GREEN = 1;
+      const ENEMY_TYPE_BLUE = 2;
+      const ENEMY_TYPE_SPIKES = 3;
+      const ENEMY_TYPE_YELLOW = 4;
+      const ENEMY_TYPE_FLIPPED_RED = 5;
+      const ENEMY_TYPE_ORANGE = 6;
+      const ENEMY_TYPE_MAGENTA = 7;
+
+      const LEVELS = 56;
+      const MAP_WIDTH = 16;
+      const MAP_HEIGHT = 12;
+
+      const GRAVITY = 0.05;
+      const JUMP_VY = -1.6;
+      const MAX_VY = 3;
+      const ADVANCE_LEVEL_DELAY = 25;
+      const APPEARING_BLOCK_DELAY = 50;
+      const YELLOW_RADIUS = 10;
+
+      const BACKGROUND_COLOR = 0x7f92ff;
+      /*
+    final ArrayList<int[]> enemies = new ArrayList<int[]>();
+       
+    const[][] blocks = new int[10][2];
+    const[][] map = new int[MAP_HEIGHT][MAP_WIDTH];
+    final BufferedImage[] tiles = new BufferedImage[TILES];
+    final BufferedImage imageBuffer = new BufferedImage(
+        FRAME_WIDTH, FRAME_HEIGHT, BufferedImage.TYPE_INT_RGB);
+    final Graphics2D g = imageBuffer.createGraphics();
+    Graphics2D g2 = null;*/
+
+      // Initialize an empty array to hold arrays of integers
+      const enemies = [];
+      // Initialize a 2D array with 10 rows and 2 columns, all elements set to 0
+      const blocks = Array.from({ length: 10 }, () => Array(2).fill(0));
+      // Example values for MAP_HEIGHT and MAP_WIDTH
+
+      // Initialize a 2D array with MAP_HEIGHT rows and MAP_WIDTH columns, all elements set to 0
+      const map = Array.from({ length: MAP_HEIGHT }, () => Array(MAP_WIDTH).fill(0));
+
+      let keysReleased = false;
+      let blockClear = false;
+      //int[] enemy;
+      let advanceLevel = 0;
+      let diamonds = 0;
+      let appearingBlocks = 0;
+      let blockIndex = 0;
+      let blockDelay = 0;
+      let resetDelay = 1;
+      let level = 0;
+      let i = 0;
+      let j = 0;
+      let k = 0;
+      let x = 0;
+      let y;
+      let z;
+      let p;
+      let q;
+      let counter = 0;
+      let playerSpriteOffset = 0;
+      let playerX = 0;
+      let arrowTime = 0;
+      let playerY = 0;
+      let playerVy = 0;
+
+      const tiles = [];
+
+      for (let i = 0, j = 0; i < TILES; i++) {
+        const canvas = document.createElement("canvas");
+        canvas.width = 10;
+        canvas.height = 10;
+        const ctx = canvas.getContext("2d");
+        const imageData = ctx.createImageData(10, 10);
+        const data = imageData.data;
+
+        if (i !== TILE_EMPTY) {
+          for (let y = 0; y < 10; y++) {
+            for (let x = 0; x < 5; x++) {
+              let k = S.charAt(j++);
+
+              let color;
+
+              switch (k) {
+                case "a":
+                  color = 0xff000000;
+                  break;
+                case "b":
+                  color = 0xffff6a00;
+                  break;
+                case "c":
+                  color = 0xffff0000;
+                  break;
+                case "d":
+                  color = 0xff00ff00;
+                  break;
+                case "e":
+                  color = 0xff0000ff;
+                  break;
+                case "f":
+                  color = 0xffffff00;
+                  break;
+                case "g":
+                  color = 0xff00ffff;
+                  break;
+                case "h":
+                  color = 0x00000000;
+                  break;
+                case "i":
+                  color = 0xffffffff;
+                  break;
+                case "j":
+                  color = 0xff6675cc;
+                  break;
+                case "k":
+                  color = 0xff7f92ff;
+                  break;
+                case "l":
+                  color = 0xffff00ff;
+                  break;
+                default:
+                  color = 0xfff7d3b3;
+              }
+
+              const index = (y * 10 + x) * 4;
+              /*
+              data[index] = (color >> 24) & 0xff; // R
+              data[index + 1] = (color >> 16) & 0xff; // G
+              data[index + 2] = (color >> 8) & 0xff; // B
+              data[index + 3] = color & 0xff; // A
+              */
+
+              data[index] = (color >> 16) & 0xff; // Red
+              data[index + 1] = (color >> 8) & 0xff; // Green
+              data[index + 2] = color & 0xff; // Blue
+              data[index + 3] = (color >> 24) & 0xff; // Alpha
+
+              const mirrorIndex = (y * 10 + (9 - x)) * 4;
+              data[mirrorIndex] = data[index];
+              data[mirrorIndex + 1] = data[index + 1];
+              data[mirrorIndex + 2] = data[index + 2];
+              data[mirrorIndex + 3] = data[index + 3];
+            }
+          }
+          ctx.putImageData(imageData, 0, 0);
+        }
+        tiles[i] = canvas;
+      }
+
+      function draw() {
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, 152, 210);
+        ctx.drawImage(tiles[10], 10, 10);
+
+        // Set background color
+        ctx.fillStyle = "#7F92FF";
+        ctx.fillRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+
+        // Draw tiles
+        for (let y = 0; y < MAP_HEIGHT; y++) {
+          for (let x = 0; x < MAP_WIDTH; x++) {
+            const i = map[y][x];
+            if (i !== TILE_EMPTY) {
+              ctx.drawImage(tiles[i], 10 * x, 10 * y);
+            }
+          }
+        }
+
+        // Draw enemies (and wrap-around copies)
+        enemies.forEach((enemy) => {
+          for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+              const imgIndex = TILE_RED_ENEMY_0 + ((counter >> 4) & 1) + (enemy[ENEMY_TYPE] << 1);
+              ctx.drawImage(
+                tiles[imgIndex],
+                enemy[ENEMY_X] + (j - 1) * FRAME_WIDTH,
+                enemy[ENEMY_Y] + (i - 1) * FRAME_HEIGHT
+              );
+            }
+          }
+        });
+
+        // Draw player (and wrap-around copies)
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            const imgIndex = TILE_PLAYER_0 + ((arrowTime >> 3) & 1) + playerSpriteOffset;
+            ctx.drawImage(
+              tiles[imgIndex],
+              Math.floor(playerX) + (j - 1) * FRAME_WIDTH,
+              Math.floor(playerY) + (i - 1) * FRAME_HEIGHT
+            );
+          }
+        }
+      }
+
+      let secondsPassed;
+      let oldTimeStamp;
+      let fps;
+
+      function gameLoop(timeStamp) {
+        // Calculate the number of seconds passed since the last frame
+        secondsPassed = (timeStamp - oldTimeStamp) / 1000;
+        oldTimeStamp = timeStamp;
+
+        // Calculate fps
+        fps = Math.round(1 / secondsPassed);
+
+        // reset level test
+        if (resetDelay > 0) {
+          //resetDelay--;
+          //console.log(resetDelay);
+          resetDelay = 0;
+          if (resetDelay == 0) {
+            playerVy = 0;
+            level = (level + advanceLevel + LEVELS) % LEVELS;
+
+            // decompress level
+            enemies.length = 0; // Clear the enemies array
+            blockClear = false;
+            diamonds = 0;
+            appearingBlocks = 0;
+            blockIndex = 0;
+            blockDelay = APPEARING_BLOCK_DELAY;
+            let j = 50 * (TILES - 1) + level * 192;
+            console.log(level);
+            for (let y = 0; y < MAP_HEIGHT; y++) {
+              for (let x = 0; x < MAP_WIDTH; x++) {
+                let p = k;
+                //debugger;
+                k = S.charAt(j++);
+
+                if (k <= "9") {
+                  blocks[k - "0"][0] = x;
+                  blocks[k - "0"][1] = y;
+                  appearingBlocks++;
+                  k = CHAR_EMPTY;
+                } else if (k == CHAR_PLAYER) {
+                  // create player
+                  playerX = 10 * x;
+                  playerY = 10 * y;
+                  k = p == CHAR_ANTIGRAVITY ? CHAR_ANTIGRAVITY : CHAR_EMPTY;
+                } else if (k >= CHAR_RED_ENEMY) {
+                  for (let i = 0; i < (k == CHAR_ORANGE_ENEMY ? 3 : 1); i++) {
+                    // create enemy
+                    let enemy = new Array(8);
+                    enemy[ENEMY_X] = 10 * (x + i);
+                    enemy[ENEMY_Y] = 10 * y;
+                    enemy[ENEMY_V] = k == CHAR_MAGENTA_ENEMY ? 0 : 1;
+                    enemy[ENEMY_TYPE] = k.charCodeAt(0) - CHAR_RED_ENEMY.charCodeAt(0);
+                    enemy[ENEMY_RADIUS] = YELLOW_RADIUS * (i + 1);
+                    enemy[ENEMY_CX] = enemy[ENEMY_X] - enemy[ENEMY_RADIUS];
+                    enemy[ENEMY_CY] = enemy[ENEMY_Y];
+                    enemies.push(enemy);
+                  }
+                  k = p == CHAR_ANTIGRAVITY ? CHAR_ANTIGRAVITY : CHAR_EMPTY;
+                }
+
+                if (k == CHAR_DIAMOND) {
+                  diamonds++;
+                }
+
+                map[y][x] = k.charCodeAt(0) - "a".charCodeAt(0);
+              }
+            }
+            if (level == 10) {
+              console.log(map);
+              console.log(enemies);
+            }
+
+            //nextFrameStartTime = performance.now() * 1e6; // Convert milliseconds to nanoseconds
+          } else {
+            //continue;
+          }
+        }
+
+        // update appearing blocks
+        if (appearingBlocks > 0 && --blockDelay == 0) {
+          blockDelay = APPEARING_BLOCK_DELAY;
+          if (blockClear) {
+            i = (blockIndex - 2 + appearingBlocks) % appearingBlocks;
+            map[blocks[i][1]][blocks[i][0]] = TILE_EMPTY;
+          } else {
+            map[blocks[blockIndex][1]][blocks[blockIndex][0]] = TILE_BRICK;
+            blockIndex = (blockIndex + 1) % appearingBlocks;
+          }
+          blockClear = !blockClear;
+        }
+
+        let insideOfBrick = false;
+        for (let i = 0; i < 2; i++) {
+          for (let j = 0; j < 2; j++) {
+            const checkX = (9 * j + playerX + FRAME_WIDTH) % FRAME_WIDTH;
+            const checkY = (9 * i + playerY + FRAME_HEIGHT) % FRAME_HEIGHT;
+            if (map[Math.floor(checkY / 10)][Math.floor(checkX / 10)] <= TILE_LEFT_BRICK) {
+              insideOfBrick = true;
+            }
+          }
+        }
+
+        // update player
+        const px = Math.floor(playerX);
+        const py = Math.floor(playerY);
+
+        if (!(keys.KeyX || keys.KeyR || keys.KeyN || keys.KeyP)) {
+          keysReleased = true;
+        }
+
+        if (keysReleased && keys.KeyR) {
+          keysReleased = false;
+          advanceLevel = 0;
+          resetDelay = 1;
+        }
+
+        if (keysReleased && keys.KeyN) {
+          keysReleased = false;
+          advanceLevel = 1;
+          resetDelay = 1;
+        }
+
+        if (keysReleased && keys.KeyP) {
+          keysReleased = false;
+          advanceLevel = -1;
+          resetDelay = 1;
+        }
+
+        playerSpriteOffset = 0;
+        let floorY = 10;
+        let vk = 1;
+
+        if (
+          map[Math.floor(((5 + Math.floor(playerY) + FRAME_HEIGHT) % FRAME_HEIGHT) / 10)][
+            Math.floor(((5 + Math.floor(playerX) + FRAME_WIDTH) % FRAME_WIDTH) / 10)
+          ] == TILE_ANTIGRAVITY
+        ) {
+          // inside of antigravity field
+          floorY = -1;
+          vk = -1;
+          if (playerVy == 0) {
+            playerSpriteOffset = 2;
+          }
+        }
+
+        if ((counter & 1) == 1) {
+          // conveyor belts
+          let i =
+            map[Math.floor(((10 + Math.floor(playerY) + FRAME_HEIGHT) % FRAME_HEIGHT) / 10)][
+              Math.floor(((Math.floor(playerX) + FRAME_WIDTH) % FRAME_WIDTH) / 10)
+            ];
+          let j =
+            map[Math.floor(((10 + Math.floor(playerY) + FRAME_HEIGHT) % FRAME_HEIGHT) / 10)][
+              Math.floor(((9 + Math.floor(playerX) + FRAME_WIDTH) % FRAME_WIDTH) / 10)
+            ];
+          const x = playerX;
+
+          if (i == TILE_LEFT_BRICK || j == TILE_LEFT_BRICK) {
+            playerX--;
+          }
+          if (i == TILE_RIGHT_BRICK || j == TILE_RIGHT_BRICK) {
+            playerX++;
+          }
+
+          for (let i = 0; i < 2; i++) {
+            for (let j = 0; j < 2; j++) {
+              if (
+                map[Math.floor(((9 * i + Math.floor(playerY) + FRAME_HEIGHT) % FRAME_HEIGHT) / 10)][
+                  Math.floor(((9 * j + Math.floor(playerX) + FRAME_WIDTH) % FRAME_WIDTH) / 10)
+                ] <= TILE_LEFT_BRICK
+              ) {
+                playerX = x;
+              }
+            }
+          }
+        }
+
+        let remainderVy = 0;
+
+        for (let k = 0; k < 2 || remainderVy !== 0; k++) {
+          const x = playerX;
+          let Y = playerY;
+
+          if (k == 0) {
+            if (keys.ArrowLeft) {
+              arrowTime++;
+              playerX--;
+            } else if (keys.ArrowRight) {
+              arrowTime++;
+              playerX++;
+            } else {
+              arrowTime = 0;
+            }
+          } else {
+            if (
+              vk * playerVy < 0 ||
+              (map[Math.floor(((floorY + Math.floor(playerY) + FRAME_HEIGHT) % FRAME_HEIGHT) / 10)][
+                Math.floor(((Math.floor(playerX) + FRAME_WIDTH) % FRAME_WIDTH) / 10)
+              ] > TILE_LEFT_BRICK &&
+                map[Math.floor(((floorY + Math.floor(playerY) + FRAME_HEIGHT) % FRAME_HEIGHT) / 10)][
+                  Math.floor(((9 + Math.floor(playerX) + FRAME_WIDTH) % FRAME_WIDTH) / 10)
+                ] > TILE_LEFT_BRICK) ||
+              insideOfBrick
+            ) {
+              // if not supported by bricks or moving upwards
+              if (k == 1) {
+                playerVy += vk * GRAVITY;
+                if (playerVy > MAX_VY) {
+                  playerVy = MAX_VY;
+                } else if (playerVy < -MAX_VY) {
+                  playerVy = -MAX_VY;
+                }
+                playerY += playerVy % 1;
+                remainderVy = Math.floor(playerVy - (playerVy % 1));
+              } else if (remainderVy > 0) {
+                playerY++;
+                remainderVy--;
+              } else {
+                playerY--;
+                remainderVy++;
+              }
+            } else {
+              playerVy = 0;
+              remainderVy = 0;
+              if (keysReleased && keys.KeyX) {
+                keysReleased = false;
+                playerVy = vk * JUMP_VY;
+              }
+            }
+          }
+
+          playerX = (playerX + FRAME_WIDTH) % FRAME_WIDTH;
+          playerY = (playerY + FRAME_HEIGHT) % FRAME_HEIGHT;
+
+          for (let i = 0; i < 2; i++) {
+            for (let j = 0; j < 2; j++) {
+              const mx = Math.floor(((9 * j + Math.floor(playerX) + FRAME_WIDTH) % FRAME_WIDTH) / 10);
+              const my = Math.floor(((9 * i + Math.floor(playerY) + FRAME_HEIGHT) % FRAME_HEIGHT) / 10);
+              const z = map[my][mx];
+
+              if (z <= TILE_LEFT_BRICK) {
+                if (!insideOfBrick) {
+                  // player intersected a brick, revert position
+                  playerX = x;
+                  playerY = Y;
+                  if (k > 0 && vk * playerVy < 0) {
+                    playerVy = -playerVy;
+                  }
+                }
+              } else if (z == TILE_DIAMOND) {
+                map[my][mx] = TILE_EMPTY;
+                diamonds--;
+              } else if (z == TILE_SPIKES) {
+                resetDelay = 1;
+                advanceLevel = 0;
+              } else if (z >= TILE_RED_KEY && z <= TILE_BLUE_KEY) {
+                map[my][mx] = TILE_EMPTY;
+                for (let p = 0; p < MAP_HEIGHT; p++) {
+                  for (let q = 0; q < MAP_WIDTH; q++) {
+                    if (map[p][q] == z + TILE_RED_BRICK - TILE_RED_KEY) {
+                      map[p][q] = TILE_EMPTY;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        // update appearing bricks
+        for (let i = 0; i < 2; i++) {
+          for (let j = 0; j < 2; j++) {
+            const p = Math.floor(((9 * j + playerX + FRAME_WIDTH) % FRAME_WIDTH) / 10);
+            const q = Math.floor(((9 * i + Math.floor(playerY) + FRAME_HEIGHT) % FRAME_HEIGHT) / 10);
+
+            if (map[q][p] == TILE_APPEARING_BLOCK) {
+              let blockUnfound = true;
+
+              for (let y = 0; y < 2; y++) {
+                for (let x = 0; x < 2; x++) {
+                  const checkP = Math.floor(((9 * x + playerX + FRAME_WIDTH) % FRAME_WIDTH) / 10);
+                  const checkQ = Math.floor(((9 * y + Math.floor(playerY) + FRAME_HEIGHT) % FRAME_HEIGHT) / 10);
+
+                  if (p == checkP && q == checkQ) {
+                    blockUnfound = false;
+                    break;
+                  }
+                }
+              }
+
+              if (blockUnfound) {
+                map[q][p] = TILE_BRICK;
+              }
+            }
+          }
+        }
+
+        // update enemies
+        counter++;
+        for (let i = 0; i < enemies.length; i++) {
+          const enemy = enemies[i];
+          if (
+            (counter & 1) == 1 ||
+            (enemy[ENEMY_TYPE] == ENEMY_TYPE_BLUE && enemy[ENEMY_Y] == Math.floor(playerY)) ||
+            enemy[ENEMY_TYPE] == ENEMY_TYPE_MAGENTA
+          ) {
+            // move enemies
+            if (enemy[ENEMY_TYPE] == ENEMY_TYPE_MAGENTA) {
+              // update magenta enemy
+              if (enemy[ENEMY_Y] % 10 == 0) {
+                if (enemy[ENEMY_V] == 0) {
+                  let x = Math.abs(playerX - enemy[ENEMY_X]);
+                  if (x % FRAME_WIDTH < 18) {
+                    enemy[ENEMY_V] = 1;
+                  }
+                }
+                const x = Math.floor(enemy[ENEMY_X] / 10);
+                const y = (Math.floor(enemy[ENEMY_Y] / 10) + enemy[ENEMY_V] + MAP_HEIGHT) % MAP_HEIGHT;
+                const z = map[(y + MAP_HEIGHT) % MAP_HEIGHT][x];
+                if (z !== TILE_EMPTY && z !== TILE_ANTIGRAVITY && z !== TILE_APPEARING_BLOCK) {
+                  enemy[ENEMY_V] = enemy[ENEMY_V] == 1 ? -1 : 0;
+                }
+              }
+              if (enemy[ENEMY_V] == 1 || (counter & 3) == 3) {
+                enemy[ENEMY_Y] = (enemy[ENEMY_Y] + enemy[ENEMY_V] + FRAME_HEIGHT) % FRAME_HEIGHT;
+              }
+            } else if (enemy[ENEMY_TYPE] == ENEMY_TYPE_YELLOW || enemy[ENEMY_TYPE] == ENEMY_TYPE_ORANGE) {
+              // update yellow and orange enemies
+              const d = enemy[ENEMY_TYPE] == ENEMY_TYPE_ORANGE ? 16 : 8;
+              enemy[ENEMY_X] = enemy[ENEMY_CX] + Math.floor(enemy[ENEMY_RADIUS] * Math.cos(enemy[ENEMY_V] / d));
+              enemy[ENEMY_Y] = enemy[ENEMY_CY] + Math.floor(enemy[ENEMY_RADIUS] * Math.sin(enemy[ENEMY_V] / d));
+              enemy[ENEMY_V]++;
+            } else if (enemy[ENEMY_TYPE] == ENEMY_TYPE_SPIKES) {
+              // update spikes enemy
+              if (enemy[ENEMY_Y] == 0) {
+                enemy[ENEMY_V] = 1;
+              } else if (enemy[ENEMY_Y] == FRAME_HEIGHT - 10) {
+                enemy[ENEMY_V] = -1;
+              }
+              enemy[ENEMY_Y] += enemy[ENEMY_V];
+            } else if (enemy[ENEMY_TYPE] !== ENEMY_TYPE_GREEN) {
+              // update red and blue enemies (upside-down ones also)
+              if (enemy[ENEMY_X] % 10 == 0) {
+                const x = (Math.floor(enemy[ENEMY_X] / 10) + enemy[ENEMY_V] + MAP_WIDTH) % MAP_WIDTH;
+                const y = Math.floor(enemy[ENEMY_Y] / 10);
+                const i = map[y][x];
+                const j =
+                  map[(y + (enemy[ENEMY_TYPE] == ENEMY_TYPE_FLIPPED_RED ? -1 : 1) + MAP_HEIGHT) % MAP_HEIGHT][x];
+                if (
+                  (i !== TILE_EMPTY && i !== TILE_ANTIGRAVITY && i !== TILE_APPEARING_BLOCK) ||
+                  j == TILE_EMPTY ||
+                  j == TILE_ANTIGRAVITY ||
+                  j == TILE_APPEARING_BLOCK
+                ) {
+                  enemy[ENEMY_V] = -enemy[ENEMY_V];
+                }
+              }
+              enemy[ENEMY_X] = (enemy[ENEMY_X] + enemy[ENEMY_V] + FRAME_WIDTH) % FRAME_WIDTH;
+            } else {
+              // update green enemy
+              if (enemy[ENEMY_Y] % 10 == 0) {
+                const x = Math.floor(enemy[ENEMY_X] / 10);
+                const y = (Math.floor(enemy[ENEMY_Y] / 10) + enemy[ENEMY_V] + MAP_HEIGHT) % MAP_HEIGHT;
+                const z = map[(y + MAP_HEIGHT) % MAP_HEIGHT][x];
+                if (z !== TILE_EMPTY && z !== TILE_ANTIGRAVITY && z !== TILE_APPEARING_BLOCK) {
+                  enemy[ENEMY_V] = -enemy[ENEMY_V];
+                }
+              }
+              enemy[ENEMY_Y] = (enemy[ENEMY_Y] + enemy[ENEMY_V] + FRAME_HEIGHT) % FRAME_HEIGHT;
+            }
+          }
+
+          // test if player collides with enemy
+          const x = ((playerX + FRAME_WIDTH) % FRAME_WIDTH) - ((enemy[ENEMY_X] + FRAME_WIDTH) % FRAME_WIDTH);
+          const y =
+            ((Math.floor(playerY) + FRAME_HEIGHT) % FRAME_HEIGHT) - ((enemy[ENEMY_Y] + FRAME_HEIGHT) % FRAME_HEIGHT);
+
+          if (x <= 9 && x >= -9 && y <= 9 && y >= -9) {
+            // player collides with enemy
+            resetDelay = 1;
+            advanceLevel = 0;
+          }
+        }
+
+        if (diamonds == 0) {
+          // all diamonds collected, advance to next level
+          resetDelay = ADVANCE_LEVEL_DELAY;
+          advanceLevel = 1;
+        }
+
+        draw();
+
+        // The loop function has reached it's end. Keep requesting new frames
+        window.requestAnimationFrame(gameLoop);
+      }
+
+      gameLoop();
+    </script>
+  </body>
+</html>
