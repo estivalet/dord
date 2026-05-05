@@ -7,7 +7,7 @@ Some levels contain keys that unlock certain areas. But they need to be collecte
 The edges of the frame act like portals. If you leave one side you immediately reappear on the opposite one, maintaining speed and trajectory. Exploiting that mechanic is pivotal to solving the puzzles.
 
 👉 **Play it here:**
-[https://estivalet.github.io/dord/](https://estivalet.github.io/dord/) *(or your deployed link)*
+[https://estivalet.github.io/dord/](https://estivalet.github.io/dord/) 
 
 ---
 
