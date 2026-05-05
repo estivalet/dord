@@ -86,9 +86,7 @@ Want to improve the game? Try:
 
 ## 📸 Screenshot
 
-```md
-![Screenshot](screenshot.jpg)
-```
+<img src="screenshot.jpg"/>
 
 ---
 
