@@ -86,10 +86,8 @@ Want to improve the game? Try:
 
 ## 📸 Screenshot
 
-*(Add a screenshot here if you want)*
-
 ```md
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.jpg)
 ```
 
 ---
@@ -109,11 +107,4 @@ If you’d like to improve the game:
 ## 📄 License
 
 This project is open source and available under the **MIT License**.
-
----
-
-## ✨ Author
-
-Developed by **Luiz Fernando Estivalet**
-GitHub: [https://github.com/estivalet](https://github.com/estivalet)
 
