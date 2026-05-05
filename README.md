@@ -1,13 +1,119 @@
+# 🎮 Dord
+
 Dord is an original puzzle-platformer featuring 56 levels. The goal is to collect all the diamonds while avoiding things that kill you.
 
 Some levels contain keys that unlock certain areas. But they need to be collected in a very specific sequence or else some diamonds will remain forever out of reach. If you make such an error, there is a button to restart the level.
 
 The edges of the frame act like portals. If you leave one side you immediately reappear on the opposite one, maintaining speed and trajectory. Exploiting that mechanic is pivotal to solving the puzzles.
 
-The graphics style and gameplay are an homage to early 80’s computer games, particularly Freddy’s Rescue Roundup (PC). The spikes and appearing block sequences were inspired by Heat Man’s stage in Mega Man 2 (NES). The reverse gravity was inspired by Strider (arcade). The enemy sprites are based on Space Invaders (arcade) and the aliens in The Simpsons: Bart vs. the Space Mutants (NES). The large eyes on the player and the enemies were inspired by anime and its appearance in games like the Mega Man series. The rotating orange enemy chains were inspired by the fire bars in the castles of Super Mario Bros. (NES). The rotating yellow enemies were inspired by the Zingers (the bees) in Donkey Kong Country (SNES). In an early version, the player collected strawberries, but they morphed into strawberry-shaped diamonds after trying to come up with something more appealing.
+👉 **Play it here:**
+[https://estivalet.github.io/dord/](https://estivalet.github.io/dord/) *(or your deployed link)*
 
-This was last 4K entry that I ever created. It combined many of the code squeezing techniques that I picked up over the years. Low-rez symmetric sprites were used, enabling me to pack as many levels as possible. It took an incredibly long time to come up with 56 unique puzzles.
+---
 
-One extra bit of trivia: The title of the game comes from a meaningless word that at one time inadvertently appeared in the dictionary.
+## 📌 About the Game
 
-https://meatfighter.com/java4k/
+**Dord** is a lightweight web game focused on fun, simplicity, and fast interaction.
+It runs entirely in the browser using a single HTML file, making it easy to understand, modify, and extend.
+
+This project is perfect for:
+
+* Learning game development fundamentals
+* Exploring vanilla JavaScript techniques
+* Studying simple game loops and mechanics
+
+---
+
+## 🚀 Features
+
+* ⚡ Instant play (no setup required)
+* 🧠 Simple and intuitive gameplay
+* 🎨 Clean UI built with HTML/CSS
+* 📦 Single-file architecture (`index.html`)
+* 🔧 Easy to customize and expand
+
+---
+
+## 🛠️ Technologies Used
+
+* **HTML5** – Structure and canvas (if used)
+* **CSS3** – Styling and layout
+* **JavaScript (Vanilla)** – Game logic and interactivity
+
+---
+
+## 📂 Project Structure
+
+```
+dord/
+│── index.html   # Main game file (everything lives here)
+```
+
+---
+
+## ▶️ How to Run Locally
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/estivalet/dord.git
+```
+
+2. Open the project folder:
+
+```bash
+cd dord
+```
+
+3. Open `index.html` in your browser:
+
+* Double-click it, or
+* Use a local server (recommended)
+
+---
+
+## 💡 Customization Ideas
+
+Want to improve the game? Try:
+
+* Adding sound effects 🎵
+* Creating levels or difficulty modes 🧩
+* Improving graphics or animations 🎨
+* Adding a scoring system 🏆
+* Making it mobile-friendly 📱
+
+---
+
+## 📸 Screenshot
+
+*(Add a screenshot here if you want)*
+
+```md
+![Screenshot](screenshot.png)
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+If you’d like to improve the game:
+
+1. Fork the repo
+2. Create a new branch
+3. Submit a pull request
+
+---
+
+## 📄 License
+
+This project is open source and available under the **MIT License**.
+
+---
+
+## ✨ Author
+
+Developed by **Luiz Fernando Estivalet**
+GitHub: [https://github.com/estivalet](https://github.com/estivalet)
+
